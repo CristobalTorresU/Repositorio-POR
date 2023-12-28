@@ -1,14 +1,15 @@
 # librarias
 library(ez)
-library(tidyverse)
+library(tidyr)
+library(dplyr)
 library(ggpubr)
 
 # Lectura de datos
 datos = read.csv2("/home/dilget/Repositorio-POR/EP05 Datos.csv", sep = ",");
 
-# Hipotesis a contrastar:
+# Hipótesis a contrastar:
 # H0: Los tiempos en que se demoran los usuarios para formular una consulta de una pregunta
-# de dificultad en leyes, musica y matematicas son iguales.
+# de dificultad en leyes, música y matemáticas son iguales.
 # Ha: Lo contrario
 
 # Se filtran los datos para tener solo los requeridos
@@ -40,4 +41,11 @@ resultado$`Levene's Test for Homogeneity of Variance`
 
 summary(resultado$aov)
 
-# Post-Hoc
+# Post-Hoc (Tukey HSD)
+# TODO: Entender como se lee el resultado de TukeyHSD
+alfa = 0.05
+post_hoc <- TukeyHSD(resultado$aov,
+                     "area",
+                     ordered = TRUE,
+                     conf.level = 1 - alfa)
+post_hoc
